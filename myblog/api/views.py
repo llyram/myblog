@@ -1,5 +1,9 @@
+from django.forms import GenericIPAddressField
 from django.shortcuts import render
-from django.http import HttpResponse
-# Create your views here.
-def main(request):
-    return HttpResponse("<h1>Hello</h1>")
+from rest_framework import generics
+from .models import Post
+from .serializers import PostSerializer
+
+class PostView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
