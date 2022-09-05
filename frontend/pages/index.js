@@ -1,23 +1,21 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-// import styles from "../styles/Home.module.css";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
 import BlogCard from "../components/blog-card";
 
-export const getStaticProps = async() => {
+export const getStaticProps = async () => {
   const res = await fetch(`http://127.0.0.1:8000/api/posts/?format=json`);
-      const data = await res.json();
-      
-      return {
-        props: {
-          posts: data || null
-        }
-      }
-}
+  const data = await res.json();
 
-const Home = ({posts}) => {
+  return {
+    props: {
+      posts: data || null,
+    },
+  };
+};
 
+const Home = ({ posts }) => {
   return (
     <div>
       <Head>
@@ -26,18 +24,13 @@ const Home = ({posts}) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div >
-        <main >
-        {posts && posts.map((post, index) => 
-            // <ReactMarkdown children={post.body}></ReactMarkdown>
-            // <BlogCard />
-            <h1 key={index}>{post.title}</h1>
-            )
-          }
-      </main>
+      <div className="container mx-auto prose">
+        {/* <main> */}
+          {posts && posts.map((post, index) => <BlogCard post={post} />)}
+        {/* </main> */}
       </div>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;
