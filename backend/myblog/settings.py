@@ -88,7 +88,7 @@ DATABASES = {
 }
 
 CORS_ALLOWED_ORIGINS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["*"]
+CSRF_TRUSTED_ORIGINS = ["https://myblog-production.up.railway.app/"]
 
 
 # Password validation
