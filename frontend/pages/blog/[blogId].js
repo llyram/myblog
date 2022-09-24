@@ -16,7 +16,7 @@ export const getStaticPaths = () => {
 
 export const getStaticProps = async ({ params }) => {
   const res = await fetch(
-    `http://127.0.0.1:8000/api/posts/${params.blogId}?format=json`
+    `https://myblog-production.up.railway.app/api/posts/${params.blogId}?format=json`
   );
   const data = await res.json();
 
@@ -44,7 +44,7 @@ const BlogPost = ({ post }) => {
         </h1>
       </header>
       <div className="mt-8 mx-auto prose md:prose-lg lg:prose-xl">
-        <ReactMarkdown children={post.body}></ReactMarkdown>
+        <ReactMarkdown>{post.body}</ReactMarkdown>
       </div>
     </div>
   );
