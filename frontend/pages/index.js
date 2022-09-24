@@ -2,10 +2,13 @@ import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import BlogCard from "../components/blog-card";
+import dynamic from "next/dynamic";
+const BlogCard = dynamic(() => import("../components/blog-card"), {
+  ssr: false,
+});
 
 export const getStaticProps = async () => {
-  const res = await fetch(`http://127.0.0.1:8000/api/posts/?format=json`);
+  const res = await fetch(`https://myblog-production.up.railway.app/api/posts/?format=json`);
   const data = await res.json();
 
   return {
@@ -25,9 +28,9 @@ const Home = ({ posts }) => {
       </Head>
 
       <div className="container mx-auto prose">
-        {/* <main> */}
-          {posts && posts.map((post, index) => <BlogCard post={post} />)}
-        {/* </main> */}
+        {posts.map((post, index) => (
+          <BlogCard post={post} key={index} />
+        ))}
       </div>
     </div>
   );

@@ -94,7 +94,7 @@ DATABASES = {
     }
 }
 
-CORS_ALLOWED_ORIGINS = ["*"]
+# CORS_ALLOWED_ORIGINS = ["*"]
 CSRF_TRUSTED_ORIGINS = ["https://myblog-production.up.railway.app"]
 CORS_REPLACE_HTTPS_REFERER = True
 CSRF_COOKIE_DOMAIN = 'railway.app'
@@ -136,7 +136,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'staticfiles'),
