@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
+import { config } from '../../Constants';
 
 export const getStaticPaths = () => {
   return {
@@ -15,8 +16,9 @@ export const getStaticPaths = () => {
 };
 
 export const getStaticProps = async ({ params }) => {
+  var url = config.url.API_URL;
   const res = await fetch(
-    `https://myblog-production.up.railway.app/api/posts/${params.blogId}?format=json`
+    url.concat(`/api/posts/${params.blogId}?format=json`)
   );
   const data = await res.json();
 

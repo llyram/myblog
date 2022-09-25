@@ -3,12 +3,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import dynamic from "next/dynamic";
+import { config } from '../Constants';
 const BlogCard = dynamic(() => import("../components/blog-card"), {
   ssr: false,
 });
 
 export const getStaticProps = async () => {
-  const res = await fetch(`https://myblog-production.up.railway.app/api/posts/?format=json`);
+  var url = config.url.API_URL;
+  const res = await fetch(url.concat(`/api/posts/?format=json`));
   const data = await res.json();
 
   return {
