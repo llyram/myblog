@@ -10,9 +10,6 @@ const BlogCard = dynamic(() => import("../components/blog-card"), {
 const { endpoint } = require("@octokit/endpoint");
 
 export const getStaticProps = async () => {
-  // var url = config.url.API_URL;
-  // const res = await fetch(url.concat(`/api/posts/?format=json`));
-  // const data = await res.json();
 
   const {url, ...options} = endpoint('GET /repos/:owner/:repo/issues', {
     owner: 'llyram',
@@ -33,24 +30,7 @@ export const getStaticProps = async () => {
 
 
 const Home = ({ posts }) => {
-
-  // const [issues, setIssues] = useState([])
-
-  // useEffect(() => {
-  //   async function fetchIssues() {
-  //     const {url, ...options} = endpoint('GET /repos/:owner/:repo/issues', {
-  //       owner: 'llyram',
-  //       repo: 'myblog',
-  //       auth: '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',
-  //     })
-  //     const response = await fetch(url, options)
-  //     const issues = await response.json()
-  //     setIssues(issues)
-  //     console.log(issues)
-  //   }
-  //   fetchIssues()
-  // }, [])
-
+  console.log(posts)
   return (
     <div>
       <Head>
