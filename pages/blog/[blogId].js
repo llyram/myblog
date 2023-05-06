@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
 import { config } from '../../Constants';
 const { endpoint } = require("@octokit/endpoint");
+import Link from "next/link";
+
 
 
 export const getStaticPaths = () => {
@@ -24,7 +26,7 @@ export const getStaticProps = async ({ params }) => {
   // );
   // const data = await res.json();
 
-  const {url, ...options} = endpoint('GET /repos/:owner/:repo/issues/:number', {
+  const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues/:number', {
     owner: 'llyram',
     repo: 'myblog',
     number: params.blogId,
@@ -51,13 +53,22 @@ const BlogPost = ({ post }) => {
   }
 
   return (
-    <div className="py-16 px-6 sm:px-8">
+    <div className="py-16 px-6 sm:px-8 mt-8 mx-auto prose md:prose-lg lg:prose-xl">
       <header>
+        <div>
+          <Link href="/">
+            <a className="text-gray-600 hover:text-gray-800">
+              {"\u2190"} Back to Home
+            </a>
+          </Link>
+        </div>
         <h1 className="flex flex-col items-center">
-          <span className="mt-2 text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">{post.title}</span>
+          <span className="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight text-gray-900 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text sm:leading-relaxed">
+            {post.title}
+          </span>
         </h1>
       </header>
-      <div className="mt-8 mx-auto prose md:prose-lg lg:prose-xl">
+      <div className="">
         <ReactMarkdown>{post.body}</ReactMarkdown>
       </div>
     </div>
