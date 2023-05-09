@@ -18,7 +18,6 @@ export const getStaticProps = async () => {
   })
   const response = await fetch(url, options)
   const issues = await response.json()
-  console.log(issues)
 
   return {
     props: {
@@ -30,7 +29,6 @@ export const getStaticProps = async () => {
 
 
 const Home = ({ posts }) => {
-  console.log(posts)
   return (
     <div>
       <Head>
@@ -41,7 +39,7 @@ const Home = ({ posts }) => {
 
       <div className="container mx-auto prose">
         <h1 className="text-9xl font-bold mb-6 text-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text leading-relaxed">The Blog</h1>
-        {posts.map((post, index) => (
+        {posts && posts.map((post, index) => (
           <BlogCard post={post} key={index} />
         ))}
       </div>

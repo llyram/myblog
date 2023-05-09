@@ -8,10 +8,16 @@ const BlogCard = (post) => {
     day: "numeric",
     year: "numeric",
   });
-  console.log(formattedDate);
+
+  const slug = title
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '') // Remove non-word characters
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
+      .slice(0, 50); // Trim to max length of 50 characters
 
   return (
-    <Link href={`/blog/${number}`}>
+    <Link href={`/blog/${slug}`}>
       <div className="block p-6 m-10 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 cursor-pointer">
         <p className="mb-0 mt-0 font-normal text-gray-700 ">{formattedDate}</p>
         <h5 className="mb-4 text-4xl font-bold tracking-tight text-gray-900 underline-none">

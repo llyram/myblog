@@ -6,39 +6,57 @@ import Link from "next/link";
 
 
 
-export const getStaticPaths = () => {
-  return {
-    paths: [
-      {
-        params: {
-          blogId: "3",
-        },
+export const getStaticPaths = async () => {
+  // Fetch the list of posts from the API
+  const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues', {
+    owner: 'llyram',
+    repo: 'myblog',
+    state: 'open',
+    auth: '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',
+  })
+  const response = await fetch(url, options)
+  const issues = await response.json()
+
+  // Generate the paths from the post slugs
+  const paths = issues.map((issue) => {
+    const slug = issue.title
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '') // Remove non-word characters
+      .replace(/\s+/g, '-') // Replace spaces with hyphens
+      .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
+      .slice(0, 50); // Trim to max length of 50 characters
+
+    return {
+      params: {
+        slug: slug,
       },
-    ],
+    };
+  });
+  return {
+    paths: paths,
     fallback: true,
   };
 };
 
-export const getStaticProps = async ({ params }) => {
-  // var url = config.url.API_URL;
-  // const res = await fetch(
-  //   url.concat(`/api/posts/${params.blogId}?format=json`)
-  // );
-  // const data = await res.json();
 
-  const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues/:number', {
+export const getStaticProps = async ({ params }) => {
+  const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues', {
     owner: 'llyram',
     repo: 'myblog',
-    number: params.blogId,
+    state: 'open',
     auth: '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',
   })
   const response = await fetch(url, options)
-  const issue = await response.json()
-  console.log(issue)
+  const issues = await response.json()
+
+  const post = issues.find((post) => {
+    const postSlug = post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    return postSlug === params.slug;
+  });
 
   return {
     props: {
-      post: issue || null,
+      post: post || null,
     },
     revalidate: 3,
   };
