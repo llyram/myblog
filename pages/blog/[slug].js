@@ -1,29 +1,27 @@
 import { useRouter } from "next/router";
 import ReactMarkdown from "react-markdown";
-import { config } from '../../Constants';
+import { config } from "../../Constants";
 const { endpoint } = require("@octokit/endpoint");
 import Link from "next/link";
 
-
-
 export const getStaticPaths = async () => {
   // Fetch the list of posts from the API
-  const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues', {
-    owner: 'llyram',
-    repo: 'myblog',
-    state: 'open',
-    auth: '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',
-  })
-  const response = await fetch(url, options)
-  const issues = await response.json()
+  const { url, ...options } = endpoint("GET /repos/:owner/:repo/issues", {
+    owner: "llyram",
+    repo: "myblog",
+    state: "open",
+    auth: "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",
+  });
+  const response = await fetch(url, options);
+  const issues = await response.json();
 
   // Generate the paths from the post slugs
   const paths = issues.map((issue) => {
     const slug = issue.title
       .toLowerCase()
-      .replace(/[^\w\s-]/g, '') // Remove non-word characters
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
-      .replace(/--+/g, '-') // Replace multiple hyphens with a single hyphen
+      .replace(/[^\w\s-]/g, "") // Remove non-word characters
+      .replace(/\s+/g, "-") // Replace spaces with hyphens
+      .replace(/--+/g, "-") // Replace multiple hyphens with a single hyphen
       .slice(0, 50); // Trim to max length of 50 characters
 
     return {
@@ -38,19 +36,18 @@ export const getStaticPaths = async () => {
   };
 };
 
-
 export const getStaticProps = async ({ params }) => {
-  const { url, ...options } = endpoint('GET /repos/:owner/:repo/issues', {
-    owner: 'llyram',
-    repo: 'myblog',
-    state: 'open',
-    auth: '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',
-  })
-  const response = await fetch(url, options)
-  const issues = await response.json()
+  const { url, ...options } = endpoint("GET /repos/:owner/:repo/issues", {
+    owner: "llyram",
+    repo: "myblog",
+    state: "open",
+    auth: "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",
+  });
+  const response = await fetch(url, options);
+  const issues = await response.json();
 
   const post = issues.find((post) => {
-    const postSlug = post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const postSlug = post.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
     return postSlug === params.slug;
   });
 
